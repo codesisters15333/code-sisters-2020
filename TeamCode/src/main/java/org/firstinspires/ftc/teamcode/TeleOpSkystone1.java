@@ -2,18 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-
-import java.util.Locale;
 
 /**
  * Created by ashley.peake on 8/30/2018.
@@ -22,8 +12,8 @@ import java.util.Locale;
 
 
 
-@TeleOp (name= "TeleOpRoverRuckus", group= "Linear Opmode")
-public class TeleOpRoverRuckus extends LinearOpMode {
+@TeleOp (name= "TeleOpSkystone1", group= "Linear Opmode")
+public class TeleOpSkystone1 extends LinearOpMode {
 
     HardwareRoverRuckus Rover = new HardwareRoverRuckus();
 
@@ -42,37 +32,63 @@ public class TeleOpRoverRuckus extends LinearOpMode {
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
+        Rover.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        Rover.rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         waitForStart();
 
-
+        //TODO; Original Code in TeleOpSkystone1
         while (opModeIsActive()) {
 
+            //Reset Speed Variables
+            double LF = 0;
+            double RF = 0;
+            double LB = 0;
+            double RB = 0;
 
-            double fwdBack = gamepad1.right_stick_y;
-            double strafe = -gamepad1.right_stick_x;
-            double turn = -gamepad1.left_stick_x;
+            //Get Joystick Variables
+            double Y1 = gamepad1.right_stick_y;
+            double X1 = gamepad1.right_stick_x;
+            double Y2 = gamepad1.left_stick_y;
+            double X2 = gamepad1.left_stick_x;
 
+            //Forward/Back movement
+            LF += Y1; RF += Y1; LB += Y1; RB += Y1;
+
+            //Side to side movement
+            LF += X1; RF -= X1; LB -= X1; RB += X1;
+
+            //Rotation movement
+            LF += X2; RF -= X2; LB += X2; RB -= X2;
+
+            //Clip motor power values to +- 99%
+            LF = Math.max (-0.99, Math.min (LF, 0.99));
+            RF = Math.max (-0.99, Math.min (RF, 0.99));
+            LB = Math.max (-0.99, Math.min (LB, 0.99));
+            RB = Math.max (-0.99, Math.min (RB, 0.99));
 
             if (gamepad1.start) { // drive robot at slower speed for fine adjustments while carrying gold
 
-                Rover.leftFront.setPower((fwdBack +(1.5* strafe) + turn) * 0.25);
-                Rover.leftBack.setPower((fwdBack -(1.5* strafe) + turn) * 0.25);
-                Rover.rightFront.setPower((-fwdBack +(1.5* strafe) - turn) * 0.2);
-                Rover.rightBack.setPower((-fwdBack -(1.5* strafe) - turn) * 0.2);
+                // TODO add scale factors back and make them more even across motor controls
+                //Setting power to motors
+                Rover.leftFront.setPower(-LF);
+                Rover.leftBack.setPower(LB);
+                Rover.rightFront.setPower(RF);
+                Rover.rightBack.setPower(RB);
 
 
             }else{
 
-
-                Rover.leftFront.setPower((fwdBack +(1.5* strafe) + turn) * 0.4);
-                Rover.leftBack.setPower((fwdBack -(1.5* strafe) + turn) * 0.4);
-                Rover.rightFront.setPower((-fwdBack +(1.5* strafe) - turn) * 0.8);
-                Rover.rightBack.setPower((-fwdBack -(1.5* strafe) - turn) * 0.8);
+                //Setting power to motors
+                Rover.leftFront.setPower(-LF);
+                Rover.leftBack.setPower(LB);
+                Rover.rightFront.setPower(RF);
+                Rover.rightBack.setPower(RB);
             }
 
-            telemetry.addData("fwBack", "|%.3f|", fwdBack);
-            telemetry.addData("strafe",  strafe);
-            telemetry.addData("turn", turn);
+            telemetry.addData("fwBack", "|%.3f|", Y1);
+            telemetry.addData("strafe", "|%.3f|",  X1);
+            telemetry.addData("turn", "|%.3f|", X2);
             telemetry.update();
 
 

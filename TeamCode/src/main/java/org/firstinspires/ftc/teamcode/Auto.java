@@ -52,8 +52,8 @@ public class Auto extends LinearOpMode {
              To start facing the wall, revert everything:
              driveBack first, and then turn*/
             // for blue, started near red square on the field
-            turnLeftTime(DRIVE_POWER, 500);
-            DriveForwardTime(DRIVE_POWER, 5+00);
+            //turnLeftTime(DRIVE_POWER, 500);
+           // DriveForwardTime(DRIVE_POWER, 500);
 
             // for blue, started near the blue triangle
             //turnRightTime(DRIVE_POWER, 1000);
@@ -64,8 +64,8 @@ public class Auto extends LinearOpMode {
             //DriveForwardTime(DRIVE_POWER, 1000);
 
             // for red, started near the red triangle
-            //turnLeftTime(DRIVE_POWER, 1000);
-            //DriveForwardTime(DRIVE_POWER,1000);
+            turnLeftTime(DRIVE_POWER, 500);
+            DriveForwardTime(DRIVE_POWER,700);
 
             /**if the robot moves in the opposite direction than expected,
              * check the direction of wheels*/
@@ -74,13 +74,13 @@ public class Auto extends LinearOpMode {
         }
 
 
-        double DRIVE_POWER = 1.0;
+        double DRIVE_POWER = 0.8;
 
         public void DriveForward(double power) {
-            leftBack.setPower(power);
-            leftFront.setPower(power);
-            rightBack.setPower(-power);
-            rightFront.setPower(-power);
+            leftBack.setPower(-power);
+            leftFront.setPower(-power);
+            rightBack.setPower(power);
+            rightFront.setPower(power);
         }
 
         public void DriveForwardTime(double power, long time) throws InterruptedException {
@@ -90,10 +90,10 @@ public class Auto extends LinearOpMode {
 
 
         public void DriveBack(double power) {
-            leftBack.setPower(-power);
-            leftFront.setPower(-power);
-            rightBack.setPower(power);
-            rightFront.setPower(power);
+            leftBack.setPower(power);
+            leftFront.setPower(power);
+            rightBack.setPower(-power);
+            rightFront.setPower(-power);
         }
 
         public void DriveBackTime(double power, long time) throws InterruptedException {
@@ -103,10 +103,10 @@ public class Auto extends LinearOpMode {
 
 
         public void turnLeft(double power) {
-            leftBack.setPower(power);
-            leftFront.setPower(-power);
-            rightBack.setPower(-power);
-            rightFront.setPower(power);
+            leftBack.setPower(-power);
+            leftFront.setPower(power);
+            rightBack.setPower(power);
+            rightFront.setPower(-power);
         }
 
         public void turnLeftTime(double power, long time) throws InterruptedException {
@@ -117,10 +117,10 @@ public class Auto extends LinearOpMode {
 
         //TurnRight
         public void turnRight(double power) {
-            leftBack.setPower(-power);
-            leftFront.setPower(power);
-            rightBack.setPower(power);
-            rightFront.setPower(-power);
+            leftBack.setPower(power);
+            leftFront.setPower(-power);
+            rightBack.setPower(-power);
+            rightFront.setPower(power);
         }
 
         public void turnRightTime(double power, long time) throws InterruptedException {
